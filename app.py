@@ -1,23 +1,21 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)  # <-- allows frontend access
 
-# Home route
 @app.route('/')
 def home():
-    return "Hello, Land Encroachment Backend is working!"
+    return "Backend is running for Land Encroachment Monitoring"
 
-# Example API: return encroachment data
 @app.route('/api/encroachment', methods=['GET'])
-def get_encroachment():
-    # Example static data (later we connect to Earth Engine or DB)
-    data = {
+def encroachment():
+    return jsonify({
         "id": 1,
         "location": "Lupane, Zimbabwe",
         "status": "Detected",
         "area_hectares": 15.6
-    }
-    return jsonify(data)
+    })
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=10000)
