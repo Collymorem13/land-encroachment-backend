@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Zim Land Encroachment Watch — Home</title>
+
+  <style>
+    :root{ --accent:#37e0a0; --bg:#050816; --panel:rgba(12,22,38,0.6); --text:#eaf2ff }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Segoe UI, Roboto, Arial, sans-serif;background:var(--bg);color:var(--text)}
+
+    /* BACKGROUND SLIDER */
+    .bg-slider{position:fixed;inset:0;z-index:-100;overflow:hidden}
+    .bg-slide{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity 1s ease}
+    .bg-slide.visible{opacity:1}
+
+    .bg-overlay{position:fixed;inset:0;background:linear-gradient(180deg, rgba(0,0,0,0.35), rgba(0,0,0,0.55));z-index:-50}
+
+    /* HEADER */
+    header{position:sticky;top:0;display:flex;align-items:center;justify-content:space-between;padding:12px 20px;background:rgba(8,18,34,0.55);backdrop-filter:blur(6px);z-index:50}
+    .brand{display:flex;gap:12px;align-items:center}
+    .brand h1{font-size:16px;margin:0}
+    nav{display:flex;gap:8px}
+    .nav-btn{background:transparent;border:0;color:var(--text);padding:8px 12px;border-radius:8px;cursor:pointer;font-weight:600}
+    .nav-btn.primary{background:var(--accent);color:#05221a}
+
+    /* HERO */
+    .hero{min-height:70vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 20px}
+    .hero h2{font-size:36px;margin:0 0 12px}
+    .hero p{max-width:900px;margin:0 auto 20px;line-height:1.5;color:#d9ecf7}
+
+    /* PORTAL BUTTONS */
+    .portal{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+    .portal a{display:inline-block;padding:10px 16px;border-radius:10px;text-decoration:none;color:var(--text);background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.03)}
+    .portal a.primary{background:var(--accent);color:#05221a;font-weight:800}
+
+    /* CONTENT */
+    .content{padding:40px 20px;max-width:1100px;margin:0 auto}
+    .feature{background:rgba(255,255,255,0.06);padding:20px;border-radius:12px;margin-bottom:20px;border:1px solid rgba(255,255,255,0.05)}
+    .feature h3{margin:0 0 8px}
+    .feature p{margin:0;color:#d8e8f7}
+
+    /* FOOTER */
+    footer{padding:20px;text-align:center;color:#9fb7d7}
+
+    @media (max-width:800px){
+      .hero h2{font-size:26px}
+    }
+  </style>
+</head>
+<body>
+
+  <!-- BACKGROUND SLIDER -->
+  <div class="bg-slider" id="bgSlider">
+    <div class="bg-slide visible" style="background-image:url('images/drone.jpg')" data-index="0"></div>
+    <div class="bg-slide" style="background-image:url('images/slide2.jpg')" data-index="1"></div>
+    <div class="bg-slide" style="background-image:url('images/slide3.jpg')" data-index="2"></div>
+  </div>
+
+  <div class="bg-overlay"></div>
+
+  <!-- HEADER -->
+  <header>
+    <div class="brand">
+      <h1>Zim Land Encroachment Watch</h1>
+    </div>
+    <nav>
+      <button class="nav-btn" onclick="scrollToHome()">Home</button>
+      <button class="nav-btn" onclick="toggleServices()">Services</button>
+      <button class="nav-btn">Case Studies</button>
+      <button class="nav-btn">Contact Us</button>
+      <button class="nav-btn primary" onclick="openPortal()">Portal</button>
+    </nav>
+  </header>
+
+  <!-- MAIN -->
+  <main>
+    <section class="hero" id="home">
+      <h2>WELCOME TO THE ZIM LAND ENCROACHMENT WATCH</h2>
+      <p>Land encroachment is the unauthorised occupation or use of land — often driven by informal settlement expansion, agricultural pressure, or illegal subdivision. We provide monitoring tools and alerts to help authorities, property owners, and conservation groups detect, document and respond to encroachment and land pollution.</p>
+
+      <div class="portal">
+        <a href="#" class="primary" onclick="openLogin(event)">Log In</a>
+        <a href="#" onclick="openRegister(event)">Register (New User)</a>
+        <a href="#" onclick="openManager(event)">Manager Login</a>
+      </div>
+    </section>
+
+    <section class="content">
+
+      <div class="feature">
+        <h3>Real-time Monitoring</h3>
+        <p>Track land-use change using satellite imagery and geospatial reports. Identify encroachment hotspots as they develop.</p>
+      </div>
+
+      <div class="feature">
+        <h3>Pollution & Land Health Detection</h3>
+        <p>Use spectral indices and ground reports to detect environmental degradation and pollution early.</p>
+      </div>
+
+      <div class="feature">
+        <h3>Case Management & Reporting</h3>
+        <p>Document incidents, generate reports, and follow each case from detection to final resolution.</p>
+      </div>
+
+    </section>
+  </main>
+
+  <footer>
+    © Zim Land Encroachment Watch — Built locally
+  </footer>
+
+  <!-- JAVASCRIPT -->
+  <script>
+    (function(){
+      const slides = Array.from(document.querySelectorAll('.bg-slide'));
+      let idx = 0;
+      const INTERVAL = 15000;
+
+      function showSlide(i){
+        slides.forEach(s=>s.classList.remove('visible'));
+        slides[i].classList.add('visible');
+      }
+
+      setInterval(() => {
+        idx = (idx + 1) % slides.length;
+        showSlide(idx);
+      }, INTERVAL);
+
+      window.openLogin = e => { if(e) e.preventDefault(); window.location.href = 'login.html'; }
+      window.openRegister = e => { if(e) e.preventDefault(); window.location.href = 'register.html'; }
+      window.openManager = e => { if(e) e.preventDefault(); window.location.href = 'manager-login.html'; }
+
+      window.openPortal = () => window.location.href = '#home';
+      window.scrollToHome = () => document.getElementById('home').scrollIntoView({behavior:'smooth'});
+      window.toggleServices = () => alert('Services page coming soon...');
+    })();
+  </script>
+
+</body>
+</html>
